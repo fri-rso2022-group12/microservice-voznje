@@ -1,0 +1,36 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+    env:
+      username_param: '${{ secrets.DB_USERNAME }}'
+      password_param: '${{ secrets.DB_PASSWORD }}'
+      hostname_param: '${{ secrets.DB_HOSTNAME }}'
+      port_param: '${{ secrets.DB_PORT }}'
+      database_param: '${{ secrets.DB_DATABASE }}'
+      hub_username: ${{secrets.DOCKER_HUB_USERNAME}}
+      hub_password: ${{secrets.DOCKER_HUB_ACCESS_TOKEN}}
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: 
+        docker build . --file Dockerfile  --build-arg db_username=$username_param --build-arg db_password=$password_param --build-arg db_hostname=$hostname_param --build-arg db_port=$port_param --build-arg db_database=$database_param --tag cutibo29/charging-station:latest
+    
+    - uses: actions/checkout@v3
+    - name: login to dockerhub
+      run: docker login -u $hub_username -p $hub_password
+    
+    - uses: actions/checkout@v3
+    - name: push docker image
+      run: docker push $hub_username/Trips:latest
+    
