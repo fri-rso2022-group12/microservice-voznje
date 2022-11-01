@@ -24,7 +24,7 @@ jobs:
     - uses: actions/checkout@v3
     - name: Build the Docker image
       run: 
-        docker build . --file Dockerfile  --build-arg db_username=$username_param --build-arg db_password=$password_param --build-arg db_hostname=$hostname_param --build-arg db_port=$port_param --build-arg db_database=$database_param --tag cutibo29/charging-station:latest
+        docker build . --file Dockerfile  --build-arg db_username=$username_param --build-arg db_password=$password_param --build-arg db_hostname=$hostname_param --build-arg db_port=$port_param --build-arg db_database=$database_param --tag cutibo29/trips:latest
     
     - uses: actions/checkout@v3
     - name: login to dockerhub
