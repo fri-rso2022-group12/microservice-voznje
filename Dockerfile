@@ -4,17 +4,7 @@ WORKDIR /app
 RUN mvn dependency:go-offline -B
 COPY ./src /app/src
 
-ARG db_hostname
-ARG db_port
-ARG db_database
-ARG db_username
-ARG db_password
-
-ENV DB_HOSTNAME $db_hostname
-ENV DB_PORT $db_port
-ENV DB_DATABASE $db_database
-ENV DB_USERNAME $db_username
-ENV DB_PASSWORD $db_password
+ENV DB_UPDATE_TYPE none
 
 RUN mvn --show-version --update-snapshots --batch-mode clean package
 
