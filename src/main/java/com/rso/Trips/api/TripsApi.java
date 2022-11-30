@@ -4,7 +4,8 @@ import com.rso.Trips.TripsRepository;
 import com.rso.Trips.model.TripsModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.stereotype.Controller;
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.Metrics;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,8 +21,11 @@ public class TripsApi {
     @Autowired
     TripsRepository tripsRepository;
 
+    private final Counter apiCallCounter = Metrics.counter("ApiCallCounter");
+
     @GetMapping("/trip/{id}")
     public TripsModel getTripsById(@PathVariable("id") Long id){
+        apiCallCounter.increment();
         TripsModel res = tripsRepository.getByTid(id);
         if(res == null){
             throw new EntityNotFoundException("Entity "+TripsModel.class.toString()+" with id "+id.toString()+" does not exist");
@@ -31,6 +35,7 @@ public class TripsApi {
 
     @GetMapping("/shortest/distance")
     public TripsModel getShortestTripByDistance(){
+        apiCallCounter.increment();
         TripsModel res = tripsRepository.getTripsByShortestDistance();
         if(res == null){
             throw new EmptyResultDataAccessException(0);
@@ -40,6 +45,7 @@ public class TripsApi {
 
     @GetMapping("/shortest/time")
     public TripsModel getShortestTripByTime(){
+        apiCallCounter.increment();
         TripsModel res = tripsRepository.getTripsByShortestTime();
         if(res == null){
             throw new EmptyResultDataAccessException(0);
@@ -49,6 +55,7 @@ public class TripsApi {
 
     @GetMapping("/user/{id}")
     public List<TripsModel> getTripsByUser(@PathVariable("id") Long id){
+        apiCallCounter.increment();
         List<TripsModel> res = tripsRepository.getAllByUid(id);
         if(res == null || res.isEmpty()){
             throw new EntityNotFoundException("Entity "+TripsModel.class.toString()+" with uid "+id.toString()+" does not exist");

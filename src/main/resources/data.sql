@@ -1,0 +1,5 @@
+insert into trips (startx, starty, stopx, stopy, "time", distance, "uid") values(20.000, 20.000, 30.000, 30.000, 6000, 600000, 20)
+insert into trips (startx, starty, stopx, stopy, "time", distance, "uid") values(20.000, 20.000, 21.000, 21.000, 600, 600, 20)
+insert into trips (startx, starty, stopx, stopy, "time", distance, "uid") values(20.0, 20.0, 20.100, 20.100, 6, 6, 20)
+insert into trips (startx, starty, stopx, stopy, "time", distance, "uid") values(20.000, 20.000, 25.000, 25.000, 600000, 6, 20)
+insert into trips (startx, starty, stopx, stopy, "time", distance, "uid") values(20.000, 20.000, 35.000, 35.000, 6, 60000000, 20)
