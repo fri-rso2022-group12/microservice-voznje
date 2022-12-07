@@ -2,6 +2,9 @@ package com.rso.Trips.api;
 
 import com.rso.Trips.TripsRepository;
 import com.rso.Trips.model.TripsModel;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import io.micrometer.core.instrument.Counter;
@@ -13,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.logging.Logger;
+
 
 @RestController
 @RequestMapping("api/v1/trips")
@@ -23,12 +26,12 @@ public class TripsApi {
     TripsRepository tripsRepository;
 
     private final Counter apiCallCounter = Metrics.counter("ApiCallCounter");
-    private final Logger logger = Logger.getLogger(TripsApi.class.getName());
+    private final Logger logger = LoggerFactory.getLogger(TripsApi.class);
 
     @GetMapping("/trip/{id}")
     public TripsModel getTripsById(@PathVariable("id") Long id){
         apiCallCounter.increment();
-        logger.info("getTripsById call");
+        logger.info("function call");
         TripsModel res = tripsRepository.getByTid(id);
         if(res == null){
             throw new EntityNotFoundException("Entity "+TripsModel.class.toString()+" with id "+id.toString()+" does not exist");
@@ -39,7 +42,7 @@ public class TripsApi {
     @GetMapping("/shortest/distance")
     public TripsModel getShortestTripByDistance(){
         apiCallCounter.increment();
-        logger.info("getShortestTripsByDistance call");
+        logger.info("function call");
         TripsModel res = tripsRepository.getTripsByShortestDistance();
         if(res == null){
             throw new EmptyResultDataAccessException(0);
@@ -50,7 +53,7 @@ public class TripsApi {
     @GetMapping("/shortest/time")
     public TripsModel getShortestTripByTime(){
         apiCallCounter.increment();
-        logger.info("getShortestTripByTime call");
+        logger.info("function call");
         TripsModel res = tripsRepository.getTripsByShortestTime();
         if(res == null){
             throw new EmptyResultDataAccessException(0);
@@ -61,7 +64,7 @@ public class TripsApi {
     @GetMapping("/user/{id}")
     public List<TripsModel> getTripsByUser(@PathVariable("id") Long id){
         apiCallCounter.increment();
-        logger.info("getTripsByUser call");
+        logger.info("function call");
         List<TripsModel> res = tripsRepository.getAllByUid(id);
         if(res == null || res.isEmpty()){
             throw new EntityNotFoundException("Entity "+TripsModel.class.toString()+" with uid "+id.toString()+" does not exist");
