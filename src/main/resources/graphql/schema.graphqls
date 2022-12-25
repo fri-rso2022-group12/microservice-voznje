@@ -1,0 +1,15 @@
+type Query {
+    tripsByTid(id: ID!): TripsModel
+    tripsByUid(id: ID!): [TripsModel]
+}
+
+type TripsModel {
+    tid: ID!
+    uid: Int!
+    startX: Int!
+    startY: Int!
+    stopX: Int!
+    stopY: Int!
+    distance: Float!
+    time: Int!
+}
